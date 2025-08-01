@@ -1,0 +1,22 @@
+{
+  "name": "ESP32-CAM ONVIF Server",
+  "version": "2.0.0",
+  "description": "ONVIF Profile S server implementation for ESP32-CAM",
+  "keywords": "onvif, camera, rtsp, esp32, webservices",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/example/esp32cam-onvif.git"
+  },
+  "authors": [
+    {
+      "name": "ESP32-CAM ONVIF Team",
+      "email": "example@example.com"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bblanchon/ArduinoJson": "^6.21.3"
+  },
+  "frameworks": "arduino",
+  "platforms": "espressif32"
+} 

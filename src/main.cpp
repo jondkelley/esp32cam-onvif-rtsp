@@ -7,6 +7,7 @@
 #include <OV2640.h>
 #include <ESPmDNS.h>
 #include <rtsp_server.h>
+#include <onvif_server.h>
 #include <lookup_camera_effect.h>
 #include <lookup_camera_frame_size.h>
 #include <lookup_camera_gainceiling.h>
@@ -52,6 +53,8 @@ OV2640 cam;
 DNSServer dnsServer;
 // RTSP Server
 std::unique_ptr<rtsp_server> camera_server;
+// ONVIF Server
+std::unique_ptr<OnvifServer> onvif_server;
 // Web server
 WebServer web_server(80);
 
@@ -101,6 +104,7 @@ void handle_root()
       {"FreeHeap", format_memory(ESP.getFreeHeap())},
       {"MaxAllocHeap", format_memory(ESP.getMaxAllocHeap())},
       {"NumRTSPSessions", camera_server != nullptr ? String(camera_server->num_connected()) : "RTSP server disabled"},
+      {"NumONVIFSessions", onvif_server != nullptr ? String(onvif_server->num_connected()) : "ONVIF server disabled"},
       // Network
       {"HostName", hostname},
       {"MacAddress", WiFi.macAddress()},
@@ -143,7 +147,9 @@ void handle_root()
       {"Dcw", String(param_dcw.value())},
       {"ColorBar", String(param_colorbar.value())},
       // RTSP
-      {"RtspPort", String(RTSP_PORT)}};
+      {"RtspPort", String(RTSP_PORT)},
+      // ONVIF
+      {"OnvifPort", String(ONVIF_PORT)}};
 
   web_server.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   auto html = moustache_render(index_html_min_start, substitutions);
@@ -295,14 +301,24 @@ void start_rtsp_server()
   MDNS.addService("rtsp", "tcp", RTSP_PORT);
 }
 
+void start_onvif_server()
+{
+  log_v("start_onvif_server");
+  onvif_server = std::unique_ptr<OnvifServer>(new OnvifServer(cam, ONVIF_PORT));
+  // Add ONVIF service to mDNS
+  MDNS.addService("onvif", "tcp", ONVIF_PORT);
+}
+
 void on_connected()
 {
   log_v("on_connected");
   // Start the RTSP Server if initialized
-  if (camera_init_result == ESP_OK)
+  if (camera_init_result == ESP_OK) {
     start_rtsp_server();
-  else
-    log_e("Not starting RTSP server: camera not initialized");
+    start_onvif_server();
+  } else {
+    log_e("Not starting RTSP/ONVIF servers: camera not initialized");
+  }
 }
 
 void on_config_saved()
@@ -413,4 +429,7 @@ void loop()
 
   if (camera_server)
     camera_server->doLoop();
+    
+  if (onvif_server)
+    onvif_server->doLoop();
 }

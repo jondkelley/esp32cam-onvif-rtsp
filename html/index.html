@@ -131,6 +131,8 @@
         <div>{{Uptime}}</div>
         <div class="row">RTSP sessions:</div>
         <div>{{NumRTSPSessions}}</div>
+        <div class="row">ONVIF sessions:</div>
+        <div>{{NumONVIFSessions}}</div>
         <div class="row">Free heap:</div>
         <div>{{FreeHeap}}</div>
         <div class="row">Max free block:</div>
@@ -241,6 +243,12 @@
     <div class="flex-table">
         <div class="row">RTSP camera stream:</div>
         <div><a href="rtsp://{{IPv4}}:{{RtspPort}}/mjpeg/1">rtsp://{{IPv4}}:{{RtspPort}}/mjpeg/1</a></div>
+        <div class="row">ONVIF Device Service:</div>
+        <div><a href="http://{{IPv4}}:{{OnvifPort}}/onvif/device_service" target="_blank" rel="noopener">http://{{IPv4}}:{{OnvifPort}}/onvif/device_service</a></div>
+        <div class="row">ONVIF Media Service:</div>
+        <div><a href="http://{{IPv4}}:{{OnvifPort}}/onvif/media_service" target="_blank" rel="noopener">http://{{IPv4}}:{{OnvifPort}}/onvif/media_service</a></div>
+        <div class="row">ONVIF Imaging Service:</div>
+        <div><a href="http://{{IPv4}}:{{OnvifPort}}/onvif/imaging_service" target="_blank" rel="noopener">http://{{IPv4}}:{{OnvifPort}}/onvif/imaging_service</a></div>
         <div class="row">JPEG Motion stream:</div>
         <div><a href="http://{{IPv4}}/stream" target="_blank" rel="noopener">http://{{IPv4}}/stream</a></div>
         <div class="row">Snapshot of the camera:</div>
