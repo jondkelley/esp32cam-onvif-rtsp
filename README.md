@@ -1,3 +1,17 @@
+# Project discontinued
+
+Multiple people can't get this working so I think Unifi dropped support for the onvif profile.
+Yes, I really wanted this to work as well it would have been awesome.
+
+Next steps would likely be something like:
+```
+ESP32-CAM (RTSP or MJPEG)
+        ↓
+ONVIF proxy (Linux box / NAS / NVR / SBC)
+        ↓
+UniFi
+```
+
 # ESP32-CAM RTSP + ONVIF Profile S Server
 
 A comprehensive ESP32-CAM firmware that provides both RTSP streaming and ONVIF Profile S compliance, making it compatible with UniFi Protect, Blue Iris, and other ONVIF-compliant systems.
